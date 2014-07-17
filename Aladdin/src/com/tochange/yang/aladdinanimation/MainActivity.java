@@ -31,9 +31,9 @@ public class MainActivity extends Activity
     private void setCloseBadgeView(final MainView mainView)
     {
         final BadgeView badge = new BadgeView(this, mainView);
-        badge.setBadgePosition(267 - 17, -3, 0, 0);
-        badge.setBadgeBackgroundShape(BadgeView.BACKGROUND_SHAPE_OVAL);
-        badge.setText(" × ");// delete button
+        badge.setBadgePosition(267 - 17, -3, 0, 0)
+                .setBadgeBackgroundShape(BadgeView.BACKGROUND_SHAPE_OVAL)
+                .setText(" × ");
         badge.setTextSize(25);
         badge.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -49,10 +49,10 @@ public class MainActivity extends Activity
     private void setDebugBadgeView(final MainView mainView)
     {
         final BadgeView badge1 = new BadgeView(this, mainView);
-        badge1.setBadgePosition(BadgeView.POSITION_BOTTOM_LEFT);
-        badge1.setBadgeBackgroundShape(BadgeView.BACKGROUND_SHAPE_ROUNDRECTANGLL);
-        badge1.setBadgeBackgroundColor(Color.GREEN);
-        badge1.setText("debug");// delete button
+        badge1.setBadgePosition(BadgeView.POSITION_BOTTOM_LEFT)
+                .setBadgeBackgroundShape(
+                        BadgeView.BACKGROUND_SHAPE_ROUNDRECTANGLL)
+                .setBadgeBackgroundColor(Color.GREEN).setText("debug");
         badge1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {

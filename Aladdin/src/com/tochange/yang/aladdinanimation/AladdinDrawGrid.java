@@ -1,7 +1,5 @@
 package com.tochange.yang.aladdinanimation;
 
-//import com.tochange.yang.lib.log;
-
 import com.tochange.yang.lib.log;
 
 import android.graphics.Path;
