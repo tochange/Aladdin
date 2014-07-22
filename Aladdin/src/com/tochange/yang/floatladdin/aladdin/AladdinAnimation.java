@@ -1,12 +1,12 @@
-package com.tochange.yang.aladdinanimation;
+package com.tochange.yang.floatladdin.aladdin;
+
+import com.tochange.yang.lib.log;
 
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
 
-//import com.tochange.yang.lib.log;
-
-public class BoundaryAnimation extends Animation
+public class AladdinAnimation extends Animation
 {
 
     public interface IAnimationUpdateListener
@@ -22,7 +22,7 @@ public class BoundaryAnimation extends Animation
 
     private IAnimationUpdateListener mListener;
 
-    public BoundaryAnimation(int fromIndex, int endIndex, boolean reverse,
+    public AladdinAnimation(int fromIndex, int endIndex, boolean reverse,
             IAnimationUpdateListener listener)
     {
         mFromIndex = fromIndex;
@@ -37,6 +37,8 @@ public class BoundaryAnimation extends Animation
         return super.getTransformation(currentTime, outTransformation);
     }
 
+    int lastTimeIndex;
+
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t)
     {
@@ -46,18 +48,17 @@ public class BoundaryAnimation extends Animation
             float value = interpolator.getInterpolation(interpolatedTime);
             interpolatedTime = value;
         }
+        // log.e(""+(mReverse = true));
         if (mReverse)
-        {
             interpolatedTime = 1.0f - interpolatedTime;
-        }
 
         int currentIndex = (int) (mFromIndex + (mEndIndex - mFromIndex)
                 * interpolatedTime);
+        if (currentIndex == lastTimeIndex)
+            return;
+        lastTimeIndex = currentIndex;
 
         if (null != mListener)
-        {
-            // log.e("currentIndex=" + currentIndex);
             mListener.onAnimUpdate(currentIndex);
-        }
     }
 }

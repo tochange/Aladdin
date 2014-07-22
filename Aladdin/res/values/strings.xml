@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">Aladdin</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="path_words">往这条路径收缩</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="path_words">沿此动画</string>
 
 </resources>

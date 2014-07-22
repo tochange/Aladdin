@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/custom_layout_all"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:orientation="vertical"
+        android:paddingBottom="5dp" >
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:background="#ffccff" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#ffffcc"
+            android:orientation="horizontal"
+            android:weightSum="3" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:text="name:" />
+
+            <EditText
+                android:id="@+id/edittext"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textColor="#000" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#ccffff"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="MUsed:" />
+
+            <TextView
+                android:id="@+id/percent"
+                android:layout_width="32dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_small"
+                android:gravity="center"
+                android:textColor="#0f0" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/pic"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>

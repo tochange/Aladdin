@@ -1,4 +1,4 @@
-package com.tochange.yang.aladdinanimation;
+package com.tochange.yang.floatladdin.aladdin;
 
 import com.tochange.yang.lib.log;
 
@@ -7,7 +7,6 @@ import android.graphics.PathMeasure;
 
 public class AladdinDrawGrid extends AbstractDrawGrid
 {
-
     private Path mFirstPath;
 
     private Path mSecondPath;
@@ -46,29 +45,19 @@ public class AladdinDrawGrid extends AbstractDrawGrid
 
         mFirstPath.moveTo(0, VERTICAL_OFFSET);// start point of bezier
         mSecondPath.moveTo(w, VERTICAL_OFFSET);
+        // mFirstPath.lineTo(0, h + VERTICAL_OFFSET);//line to the position
+        // mSecondPath.lineTo(w, h + VERTICAL_OFFSET);
 
-        mFirstPath.lineTo(0, h + VERTICAL_OFFSET);
-        mSecondPath.lineTo(w, h + VERTICAL_OFFSET);
-
-        log.e(endX + "..." + endY);
-        log.e(w + "..." + h);
-        
-        mFirstPath.cubicTo(0, 2 * (endY + VERTICAL_OFFSET) / 3, endX / 2,
-                2 * (endY + VERTICAL_OFFSET) / 3, endX, endY);
-        mSecondPath.cubicTo(endX / 2, 2 * (endY + VERTICAL_OFFSET) / 3, endX,
-                endY, endX, endY);
-
-        // mFirstPath.quadTo(0, (endY + h + VERTICAL_OFFSET) / 2, endX,
-        // endY);//at beginning
-        // mSecondPath.quadTo(w, (endY + h + VERTICAL_OFFSET) / 2, endX, endY);
-
+        mFirstPath.cubicTo(0, 6 * (endY + VERTICAL_OFFSET) / 12, endX / 2 + 30,
+                5 * (endY + VERTICAL_OFFSET) / 12, endX - 30, endY);
+        mSecondPath.cubicTo(endX / 2, (endY + VERTICAL_OFFSET) / 4, endX,
+                2 * (endY + VERTICAL_OFFSET) / 3, endX - 10, endY);
     }
 
     @Override
     public void buildMeshes(int timeIndex)
     {
-        // log.e("timeIndex=" + timeIndex + "   mVerticalSplit=" +
-        // mVerticalSplit);
+
         if (mBmpWidth <= 0 || mBmpHeight <= 0)
         {
             throw new IllegalArgumentException(
@@ -80,8 +69,9 @@ public class AladdinDrawGrid extends AbstractDrawGrid
         int index = 0;
         float[] pos1 = { 0.0f, 0.0f };
         float[] pos2 = { 0.0f, 0.0f };
-        float firstLen = mFirstPathMeasure.getLength();// all length of the
-                                                       // curve
+
+        // all length of the curve
+        float firstLen = mFirstPathMeasure.getLength();
         float secondLen = mSecondPathMeasure.getLength();
 
         float len1 = firstLen / mVerticalSplit;
@@ -113,7 +103,6 @@ public class AladdinDrawGrid extends AbstractDrawGrid
                 * (y1 - y2));
         float secondSplitDist = secondDist / mVerticalSplit;
 
-        // vertical,mVerticalSplit lines
         for (int y = 0; y <= mVerticalSplit; y++)
         {
             mFirstPathMeasure.getPosTan(y * firstSplitDist + firstPointDist,
@@ -134,7 +123,6 @@ public class AladdinDrawGrid extends AbstractDrawGrid
             {
                 float fx = dx * x / mHorizontalSplit;
                 float fy = dy * x / mHorizontalSplit;
-
                 mVertices[index * 2 + 0] = fx + fx1;
                 mVertices[index * 2 + 1] = fy + fy1;
             }

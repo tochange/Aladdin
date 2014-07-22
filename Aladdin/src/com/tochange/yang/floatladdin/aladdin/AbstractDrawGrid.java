@@ -1,4 +1,4 @@
-package com.tochange.yang.aladdinanimation;
+package com.tochange.yang.floatladdin.aladdin;
 
 //import com.tochange.yang.lib.log;
 
@@ -7,14 +7,6 @@ public abstract class AbstractDrawGrid
 
     public static final int VERTICAL_OFFSET = 15;
 
-    private static final int HORIZONTAL_SPLIT = 20;// no use
-                                                   // anymore,yangxj@20140523
-
-    private static final int VERTICAL_SPLIT = 20;
-
-    /**
-     * splitting partitions in horizontal and vertical
-     */
     protected int mHorizontalSplit;
 
     protected int mVerticalSplit;
@@ -24,13 +16,6 @@ public abstract class AbstractDrawGrid
     protected int mBmpHeight = -1;
 
     protected final float[] mVertices;
-
-    public AbstractDrawGrid()
-    {
-        mHorizontalSplit = HORIZONTAL_SPLIT;
-        mVerticalSplit = VERTICAL_SPLIT;
-        mVertices = new float[(mHorizontalSplit + 1) * (mVerticalSplit + 1) * 2];
-    }
 
     public AbstractDrawGrid(int width, int height)
     {
