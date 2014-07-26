@@ -56,12 +56,12 @@ public class MainView extends View
     protected void onSizeChanged(int w, int h, int oldw, int oldh)
     {
         super.onSizeChanged(w, h, oldw, oldh);
-//        log.e("");
-        float bitmapWidth = mBitmap.getWidth();
-        float bitmapHeight = mBitmap.getHeight();
-
+        log.e("");
         buildPaths(w, h);
-        mAladdinDrawGrid.buildMeshes(bitmapWidth, bitmapHeight);
+        // not need original image,yangxj@20140723
+        // float bitmapWidth = mBitmap.getWidth();
+        // float bitmapHeight = mBitmap.getHeight();
+        // mAladdinDrawGrid.buildMeshes(bitmapWidth, bitmapHeight);
     }
 
     private void buildPaths(float endX, float endY)
@@ -77,8 +77,43 @@ public class MainView extends View
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         canvas.drawPaint(paint);
         paint.setXfermode(new PorterDuffXfermode(Mode.SRC));
-//        log.e("clearing canvas");
+        log.e("clearing canvas");
         return true;
+    }
+
+    public boolean startAnimation(boolean reverse,
+            SettingLayoutActivity mainActivity)
+    {
+        if (mainActivity != null)
+            mMainActivity = mainActivity;
+        log.e("will clear canvas");
+        clearCanvas = true;
+        startAnimationImp(reverse);
+        return true;
+    }
+
+    private void startAnimationImp(boolean reverse)
+    {
+        Animation anim = this.getAnimation();
+        if (null != anim && !anim.hasEnded())
+            return;
+        final AladdinAnimation animation = new AladdinAnimation(0,
+                VERTICAL_SPLIT + 1, reverse,
+                new AladdinAnimation.IAnimationUpdateListener() {
+                    @Override
+                    public void onAnimUpdate(int index)
+                    {
+                        log.e("build-" + (index) + "");
+                        mAladdinDrawGrid.buildMeshes(index);
+                        invalidate();
+                    }
+                });
+
+        if (null != animation)
+        {
+            setAnimationTimeAndListener(animation);
+            startAnimation(animation);
+        }
     }
 
     @Override
@@ -89,6 +124,7 @@ public class MainView extends View
             clearCanvas = false;
             return;
         }
+        log.e("");
         canvas.drawBitmapMesh(mBitmap, mAladdinDrawGrid.getWidth(),
                 mAladdinDrawGrid.getHeight(), mAladdinDrawGrid.getVertices(),
                 0, null, 0, mPaint);
@@ -136,61 +172,29 @@ public class MainView extends View
         }
     }
 
-    public boolean startAnimation(boolean reverse,
-            SettingLayoutActivity mainActivity)
+    private void setAnimationTimeAndListener(AladdinAnimation animation)
     {
-        if (mainActivity != null)
-            mMainActivity = mainActivity;
-        startAnimationImp(reverse);
-        return true;
-    }
+        animation
+                .setDuration(LauncherActivity.DEBUG_MODE ? LauncherActivity.ANIMATION_TIME_LONG
+                        : LauncherActivity.ANIMATION_TIME_SHORT);
+        animation.setAnimationListener(new AnimationListener() {
 
-    private void startAnimationImp(boolean reverse)
-    {
-        Animation anim = this.getAnimation();
-        if (null != anim && !anim.hasEnded())
-            return;
-        final AladdinAnimation animation = new AladdinAnimation(0,
-                VERTICAL_SPLIT + 1, reverse,
-                new AladdinAnimation.IAnimationUpdateListener() {
-                    @Override
-                    public void onAnimUpdate(int index)
-                    {
-                        mAladdinDrawGrid.buildMeshes(index);
-                        invalidate();
-                    }
-                });
+            @Override
+            public void onAnimationStart(Animation animation)
+            {
+            }
 
-        if (null != animation)
-        {
-//            log.e("will clear canvas");
-            clearCanvas = true;
-            invalidate();
+            @Override
+            public void onAnimationRepeat(Animation animation)
+            {
+            }
 
-            animation
-                    .setDuration(LauncherActivity.DEBUG_MODE ? LauncherActivity.ANIMATION_TIME_LONG
-                            : LauncherActivity.ANIMATION_TIME_SHORT);
-            animation.setAnimationListener(new AnimationListener() {
-
-                @Override
-                public void onAnimationStart(Animation animation)
-                {
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation)
-                {
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation)
-                {
-                    if (mMainActivity != null)
-                        mMainActivity.finish();
-                }
-            });
-
-            MainView.this.startAnimation(animation);
-        }
+            @Override
+            public void onAnimationEnd(Animation animation)
+            {
+                if (mMainActivity != null)
+                    mMainActivity.finish();
+            }
+        });
     }
 }

@@ -20,13 +20,18 @@ public class SettingLayoutActivity extends Activity
         setContentView(R.layout.aladdin_view);
 
         final MainView mainView = (MainView) findViewById(R.id.view);
+        setParameter(mainView);
+        mainView.startAnimation(false, this);
+    }
+
+    private void setParameter(MainView mainView)
+    {
         Intent i = getIntent();
 
         setLeftMargin(i.getIntExtra(LauncherActivity.KEY_X, -1));
         setTopMargin(mainView, i.getIntExtra(LauncherActivity.KEY_Y, -1));
         mainView.setBitmap((Bitmap) (i
                 .getParcelableExtra(LauncherActivity.KEY_IMAGE)));
-        mainView.startAnimation(false, this);
     }
 
     private void setTopMargin(MainView mainView, int y)
