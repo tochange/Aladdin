@@ -39,8 +39,8 @@ public class FloatWindowManager
                 customWindowParams.type = LayoutParams.TYPE_SYSTEM_ALERT;
                 customWindowParams.format = PixelFormat.RGBA_8888;
                 customWindowParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        | LayoutParams.FLAG_NOT_FOCUSABLE
-                        | LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
+                        | LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH 
+                        | LayoutParams.FLAG_NOT_FOCUSABLE;
                 customWindowParams.gravity = Gravity.LEFT | Gravity.TOP;
                 customWindowParams.width = LayoutParams.WRAP_CONTENT;
                 customWindowParams.height = LayoutParams.WRAP_CONTENT;
@@ -49,7 +49,7 @@ public class FloatWindowManager
                 LauncherActivity.SCREEN_HEIGHT = windowManager
                         .getDefaultDisplay().getHeight();
                 customWindowParams.x = LauncherActivity.SCREEN_WIDTH / 4;
-                customWindowParams.y = LauncherActivity.SCREEN_HEIGHT / 3;
+                customWindowParams.y = LauncherActivity.SCREEN_HEIGHT * 2 / 3;
             }
             customWindow.setParams(customWindowParams);
             windowManager.addView(customWindow, customWindowParams);

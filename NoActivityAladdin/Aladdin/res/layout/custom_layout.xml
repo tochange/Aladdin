@@ -37,7 +37,7 @@
                 android:text="Input:"
                 android:textColor="#22a" />
 
-            <EditText
+            <com.tochange.yang.lib.ui.ClearEditText
                 android:id="@+id/edittext"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
