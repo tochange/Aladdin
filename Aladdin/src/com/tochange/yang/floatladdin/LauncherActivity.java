@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.tochange.yang.floatladdin.floatwindow.FloatWindowService;
 import com.tochange.yang.lib.Utils;
+import com.tochange.yang.lib.ui.ScreenLib;
 
 public class LauncherActivity extends Activity {
     
@@ -23,7 +24,7 @@ public class LauncherActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Intent intent = new Intent(LauncherActivity.this, FloatWindowService.class);
 		startService(intent);
-		 if(Utils.isTabletDevice(this)){
+		 if(ScreenLib.isTabletDevice(this)){
 		     IS_TABLTE = true;
 		 }
 		finish();

@@ -18,7 +18,9 @@ import android.widget.Toast;
 import com.tochange.yang.floatladdin.LauncherActivity;
 import com.tochange.yang.floatladdin.R;
 import com.tochange.yang.floatladdin.aladdin.SettingLayoutActivity;
-import com.tochange.yang.lib.BadgeView;
+import com.tochange.yang.lib.ui.BadgeView;
+import com.tochange.yang.lib.ui.Graphics;
+import com.tochange.yang.lib.ui.ScreenLib;
 import com.tochange.yang.lib.Utils;
 import com.tochange.yang.lib.log;
 
@@ -126,7 +128,7 @@ public class FloatWindowCustomView extends LinearLayout
                 i.putExtra(LauncherActivity.KEY_X, position[0]);
                 i.putExtra(LauncherActivity.KEY_Y, position[1]);
                 i.putExtra(LauncherActivity.KEY_IMAGE,
-                        Utils.getBitmapFromView(FloatWindowCustomView.this));
+                		Graphics.getBitmapFromView(FloatWindowCustomView.this));
                 setButtonPressedEffect(badge);
                 context.startActivity(i);
             }
@@ -191,7 +193,7 @@ public class FloatWindowCustomView extends LinearLayout
                 // if pad,then status bar will be in the bottom,can not minus
                 // status bar height,but pad not ensure status bar in the bottom
                 yInScreen = LauncherActivity.IS_TABLTE ? event.getRawY()
-                        : event.getRawY() - Utils.getStatusBarHeight(mContext);
+                        : event.getRawY() - ScreenLib.getStatusBarHeight(mContext);
                 updateViewStatus();
                 updateViewPosition();
                 break;
