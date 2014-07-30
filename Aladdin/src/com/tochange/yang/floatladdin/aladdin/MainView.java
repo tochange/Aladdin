@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 
+import com.tochange.yang.floatladdin.aladdin.AladdinDrawGrid;
 import com.tochange.yang.floatladdin.LauncherActivity;
 import com.tochange.yang.floatladdin.R;
 import com.tochange.yang.lib.log;
