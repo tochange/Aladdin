@@ -31,7 +31,7 @@ public class FloatWindowCustomView extends LinearLayout
 {
     private WindowManager windowManager;
 
-    private LinearLayout customWindowLayout;
+    private LinearLayout mCustomWindowLayout;
 
     private WindowManager.LayoutParams mParams;
 
@@ -43,9 +43,11 @@ public class FloatWindowCustomView extends LinearLayout
 
     private float yInView;
 
+    private ClearEditText mClearEditText;
+
     private Context mContext;
 
-    private OnClickListener mGetFocusClickListenrt = new OnClickListener() {
+    private OnClickListener mGetFocusClickListenr = new OnClickListener() {
 
         @Override
         public void onClick(View v)
@@ -54,8 +56,9 @@ public class FloatWindowCustomView extends LinearLayout
             v.setFocusableInTouchMode(true);
             if (v.getId() == R.id.percent)
             {
-                if (et.getText().toString().trim().equals(""))
-                    et.startAnimation(et.getShakeAnimation(5));
+                if (mClearEditText.getText().toString().trim().equals(""))
+                    mClearEditText.startAnimation(mClearEditText
+                            .getShakeAnimation(5));
                 LauncherActivity.DEBUG_MODE = !LauncherActivity.DEBUG_MODE;
             }
         }
@@ -88,19 +91,17 @@ public class FloatWindowCustomView extends LinearLayout
                 .getSystemService(Context.WINDOW_SERVICE);
         LayoutInflater.from(context)
                 .inflate(R.layout.float_window_layout, this);
-        customWindowLayout = (LinearLayout) findViewById(R.id.custom_layout);
-        final int[] wh = getCustomWindowLayoutWidthAndHeight(customWindowLayout);
+        mCustomWindowLayout = (LinearLayout) findViewById(R.id.custom_layout);
+        final int[] wh = getCustomWindowLayoutWidthAndHeight(mCustomWindowLayout);
         setBadgeView(context, wh);
         setPercentView(context);
         setEditText(context);
     }
 
-    ClearEditText et;
-
     private void setEditText(final Context context)
     {
-        et = (ClearEditText) findViewById(R.id.edittext);
-        et.setOnFocusChangeListener(new OnFocusChangeListener() {
+        mClearEditText = (ClearEditText) findViewById(R.id.edittext);
+        mClearEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus)
@@ -132,17 +133,17 @@ public class FloatWindowCustomView extends LinearLayout
                         .show();
                 windowManager.updateViewLayout(FloatWindowCustomView.this,
                         mParams);
-                et.setOnFocusChangeListenerCallBack(v, hasFocus);
+                mClearEditText.setOnFocusChangeListenerCallBack(v, hasFocus);
             }
         });
-        et.setOnClickListener(mGetFocusClickListenrt);
+        mClearEditText.setOnClickListener(mGetFocusClickListenr);
     }
 
     private void setPercentView(Context context)
     {
         final TextView percentView = (TextView) findViewById(R.id.percent);
         percentView.setText(FloatWindowManager.getUsedPercentValue(context));
-        percentView.setOnClickListener(mGetFocusClickListenrt);
+        percentView.setOnClickListener(mGetFocusClickListenr);
     }
 
     private void setBadgeView(final Context context, final int[] wh)
@@ -163,7 +164,6 @@ public class FloatWindowCustomView extends LinearLayout
                 child.startAnimation(getAlphaAnimation(LauncherActivity.ANIMATION_TIME / 2));
                 Bitmap b = Graphics.getBitmapFromView(child);
                 int[] position = getPosition(wh);
-                log.e("p=" + position[0] + " " + position[1]);
                 MainView mainView = (MainView) rootView.findViewById(R.id.view);
                 setParameter(mainView, position, b, rootView);
                 windowManager.addView(rootView, mParams);
@@ -190,7 +190,6 @@ public class FloatWindowCustomView extends LinearLayout
             {
                 LayoutParams lp = (LayoutParams) mainView.getLayoutParams();
                 // lp.leftMargin = position[0];
-                // lp.leftMargin = 0;
                 lp.topMargin = position[1] - LauncherActivity.VERTICAL_OFFSET;
                 mainView.setLayoutParams(lp);
 
@@ -230,7 +229,7 @@ public class FloatWindowCustomView extends LinearLayout
 
             private int[] getPosition(int[] wh)
             {
-                log.e("wh[0]=" + wh[0] + " wh[1]=" + wh[1]);
+                log.d("wh[0]=" + wh[0] + " wh[1]=" + wh[1]);
                 int maxX = LauncherActivity.SCREEN_WIDTH - wh[0];
                 int x = mParams.x > maxX ? maxX : mParams.x;
                 x = x > 0 ? x : 0;
@@ -241,7 +240,7 @@ public class FloatWindowCustomView extends LinearLayout
                         * LauncherActivity.VERTICAL_OFFSET : mParams.y;
                 y = y > 0 ? y : 0;
 
-                log.e("mParams.x=" + mParams.x + " mParams.y=" + mParams.y
+                log.d("mParams.x=" + mParams.x + " mParams.y=" + mParams.y
                         + " x=" + x + " y=" + y);
                 int[] ret = { x, y };
                 return ret;
@@ -257,10 +256,10 @@ public class FloatWindowCustomView extends LinearLayout
         int widthMeasureSpec, heightMeasureSpec;
         widthMeasureSpec = heightMeasureSpec = View.MeasureSpec
                 .makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        customWindowLayout.measure(widthMeasureSpec, heightMeasureSpec);
-        int w = customWindowLayout.getMeasuredWidth();
-        int h = customWindowLayout.getMeasuredHeight();
-        log.e("w=" + w + " h=" + h);
+        mCustomWindowLayout.measure(widthMeasureSpec, heightMeasureSpec);
+        int w = mCustomWindowLayout.getMeasuredWidth();
+        int h = mCustomWindowLayout.getMeasuredHeight();
+        log.d("w=" + w + " h=" + h);
         int[] ret = { w, h };
         return ret;
     }
@@ -280,7 +279,8 @@ public class FloatWindowCustomView extends LinearLayout
                 // if pad,then status bar will be in the bottom,can not minus
                 // status bar height,but pad not ensure status bar in the bottom
                 yInScreen = LauncherActivity.IS_TABLTE ? event.getRawY()
-                        : event.getRawY() - ScreenLib.getStatusBarHeight(mContext);
+                        : event.getRawY()
+                                - ScreenLib.getStatusBarHeight(mContext);
                 updateViewPosition();
                 break;
             case MotionEvent.ACTION_UP:

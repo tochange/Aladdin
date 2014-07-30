@@ -49,7 +49,7 @@ public class MainView extends View {
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
-		log.e("");
+		log.d("");
 		buildPaths(w, h);
 		// not need to draw the original image,yangxj@20140723
 		// float bitmapWidth = mBitmap.getWidth();
@@ -64,7 +64,7 @@ public class MainView extends View {
 	}
 
 	private boolean clearCanvas(Canvas canvas) {
-		log.e("clearing canvas");
+		log.d("clearing canvas.");
 		Paint paint = new Paint();
 		paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 		canvas.drawPaint(paint);
@@ -73,7 +73,7 @@ public class MainView extends View {
 	}
 
 	public boolean startAnimation(boolean reverse) {
-		log.e("will clear canvas");
+		log.d("will clear canvas.");
 		clearCanvas = true;
 		invalidate();// add
 		startAnimationImp(reverse);
@@ -113,16 +113,14 @@ public class MainView extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		// log.e("pre draw");
 		if (clearCanvas && clearCanvas(canvas)) {
 			clearCanvas = false;
 			return;
 		}
-		// log.e("");
-
 		if (mBitmap == null && clearCanvas(canvas)) {
 			return;
 		}
+		// log.e("");
 		if (LauncherActivity.DEBUG_MODE) {
 			setTextAndPointPaint(mPaint);
 			canvas.drawTextOnPath(
